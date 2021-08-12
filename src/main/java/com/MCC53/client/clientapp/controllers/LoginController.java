@@ -10,6 +10,7 @@ import com.MCC53.client.clientapp.models.Login;
 import com.MCC53.client.clientapp.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,21 +33,25 @@ public class LoginController {
     }
 
     @GetMapping
-    public String indexLogin() {
+    public String indexLogin(Model model) {
 
+        model.addAttribute("login", new Login());
+        
         return "/login/login";
     }
 
-    @PostMapping
-    public @ResponseBody String postLogin(@RequestBody Login login) {
-
-        return "SUKSES BRO";
-
-    }
-//    @PostMapping
-//    public String postLogin(@RequestBody Login login) {
-//        loginService.loginRequest(login);
-//        return "redirect:/dashboard";
+//    @PostMapping()
+//    public @ResponseBody String postLogin(@RequestBody Login login) {
+//
+//        return "SUKSES BRO";
 //
 //    }
+    @PostMapping
+    public @ResponseBody AuthResponse postLogin(@RequestBody Login login) {
+        System.out.println(login);
+        
+        
+        return loginService.loginRequest(login);
+
+    }
 }

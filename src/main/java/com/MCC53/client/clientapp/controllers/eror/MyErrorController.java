@@ -33,9 +33,9 @@ public class MyErrorController implements ErrorController  {
             Integer statusCode = Integer.valueOf(status.toString());
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "/errorPage/error-404";
+                return "/erorpage/error-404";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "/errorPage/error500";
+                return "/erorpage/error500";
             }
         }
         return "error";

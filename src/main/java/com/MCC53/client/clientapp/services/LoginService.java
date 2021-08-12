@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,7 +39,9 @@ public class LoginService {
     public AuthResponse loginRequest(Login login) {
 
         ResponseEntity<AuthResponse> respon = restTemplate.postForEntity(baseUrl, login, AuthResponse.class);
-        System.out.println(respon.getBody());
+        
+//        System.out.println(respon.getBody());
+       
         List<GrantedAuthority> authorities
                 = respon.getBody().getAuthorities()
                         .stream()
@@ -48,6 +51,8 @@ public class LoginService {
         UsernamePasswordAuthenticationToken authToken
                 = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), authorities);
 
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        
         return respon.getBody();
     }
 }

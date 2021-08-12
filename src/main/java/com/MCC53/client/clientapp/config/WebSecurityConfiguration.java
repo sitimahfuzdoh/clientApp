@@ -17,7 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity (prePostEnabled = true)
+//@EnableGlobalMethodSecurity (prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
     
     @Override
@@ -28,18 +28,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
                .antMatchers("/css/**","/js/**","/lib/**","/assets/**").permitAll()
                
                .antMatchers("/login").permitAll()
+               .antMatchers("/dashboard").authenticated()
                .anyRequest()
                .authenticated()
                .and()
                .formLogin()
                .loginPage("/login")
-//               .loginProcessingUrl("/login")
+               .loginProcessingUrl("/login")
                .defaultSuccessUrl("/dashboard")
-               .failureUrl("/login?error=true");
+               .failureForwardUrl("/login?error=true")
+               .permitAll()
+               .and()
+               .logout()
+               .logoutUrl("/logout");
                
                
    
-       http.cors();
+//       http.cors();
     }
 
 }
